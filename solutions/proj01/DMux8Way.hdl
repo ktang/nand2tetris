@@ -1,0 +1,32 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux8Way.hdl
+/**
+ * 8-way demultiplexor:
+ * [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
+ *                            [0, in,  0,  0,  0,  0,  0,  0] if sel = 001
+ *                            [0,  0, in,  0,  0,  0,  0,  0] if sel = 010
+ *                            [0,  0,  0, in,  0,  0,  0,  0] if sel = 011
+ *                            [0,  0,  0,  0, in,  0,  0,  0] if sel = 100
+ *                            [0,  0,  0,  0,  0, in,  0,  0] if sel = 101
+ *                            [0,  0,  0,  0,  0,  0, in,  0] if sel = 110
+ *                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
+ */
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    //// Replace this comment with your code.
+    DMux4Way(in = in, sel = sel[0..1], a = p1, b = p2, c = p3, d = p4);
+    DMux4Way(in = false, sel = sel[0..1], a = z1, b = z2, c = z3, d = z4);
+    Mux(a = p1, b = z1, sel = sel[2], out = a);
+    Mux(a = p2, b = z2, sel = sel[2], out = b);
+    Mux(a = p3, b = z3, sel = sel[2], out = c);
+    Mux(a = p4, b = z4, sel = sel[2], out = d);
+    Mux(a = z1, b = p1, sel = sel[2], out = e);
+    Mux(a = z2, b = p2, sel = sel[2], out = f);
+    Mux(a = z3, b = p3, sel = sel[2], out = g);
+    Mux(a = z4, b = p4, sel = sel[2], out = h);
+}
